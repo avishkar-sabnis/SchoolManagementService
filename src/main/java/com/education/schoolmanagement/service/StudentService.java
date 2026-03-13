@@ -4,6 +4,10 @@ import com.education.schoolmanagement.Model.Student;
 import com.education.schoolmanagement.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class StudentService {
 
@@ -17,4 +21,26 @@ public class StudentService {
         return studentRepository.save(student);
     }
 
+    public Map<Integer,Student> getAllStudents(){
+
+        List<Student> studentList = studentRepository.findAll();
+        Map<Integer,Student> allStudentsMap = new HashMap<>();
+        for(int i=0;i<studentList.size();i++){
+            allStudentsMap.put(i,studentList.get(i));
+        }
+        return allStudentsMap;
+    }
+
+    public Student updateStudent(Student updatedStudent, Integer studentId) {
+
+        Student studentToUpdate = studentRepository.findById(studentId).get();
+
+        studentToUpdate.setStudentAddress(updatedStudent.getStudentAddress());
+        studentToUpdate.setStudentMarks(updatedStudent.getStudentMarks());
+        studentToUpdate.setStudentName(updatedStudent.getStudentName());
+
+
+
+        return studentRepository.save(studentToUpdate);
+    }
 }

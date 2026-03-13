@@ -4,13 +4,11 @@ import com.education.schoolmanagement.Model.Student;
 import com.education.schoolmanagement.service.StudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.net.http.HttpResponse;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/StudentManagement")
@@ -31,6 +29,24 @@ public class StudentController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Student not inserted");
         }
         return ResponseEntity.ok(savedStudent);
+    }
+
+    @GetMapping("/getAllStudents")
+    public Map<Integer,Student> getAllStudents(){
+        return studentService.getAllStudents();
+    }
+
+    @PutMapping("/updateStudent/{studentId}")
+    public ResponseEntity<Student> updateStudent(@RequestBody Student updateStudent,
+                                                 @PathVariable Integer studentId) {
+
+        Student updatedStudent = studentService.updateStudent(updateStudent, studentId);
+
+        if (updatedStudent == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found");
+        }
+
+        return ResponseEntity.ok(updatedStudent);
     }
 
 
