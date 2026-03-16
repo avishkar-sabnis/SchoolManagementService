@@ -2,6 +2,7 @@ package com.education.schoolmanagement.controller;
 
 import com.education.schoolmanagement.Model.Student;
 import com.education.schoolmanagement.service.StudentService;
+import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +38,7 @@ public class StudentController {
     }
 
     @PutMapping("/updateStudent/{studentId}")
+    @Transactional
     public ResponseEntity<Student> updateStudent(@RequestBody Student updateStudent,
                                                  @PathVariable Integer studentId) {
 

@@ -2,6 +2,7 @@ package com.education.schoolmanagement.service;
 
 import com.education.schoolmanagement.Model.Student;
 import com.education.schoolmanagement.repository.StudentRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -31,16 +32,17 @@ public class StudentService {
         return allStudentsMap;
     }
 
+    @Transactional(Transactional.TxType.NOT_SUPPORTED)
+    //@Transactional(Transactional.TxType.REQUIRED)
+    //@Transactional(Transactional.TxType.REQUIRES_NEW)
+    //@Transactional(Transactional.TxType.NEVER)
+    //@Transactional(Transactional.TxType.SUPPORTS)
+    //@Transactional(Transactional.TxType.MANDATORY)
     public Student updateStudent(Student updatedStudent, Integer studentId) {
-
         Student studentToUpdate = studentRepository.findById(studentId).get();
-
         studentToUpdate.setStudentAddress(updatedStudent.getStudentAddress());
         studentToUpdate.setStudentMarks(updatedStudent.getStudentMarks());
         studentToUpdate.setStudentName(updatedStudent.getStudentName());
-
-
-
         return studentRepository.save(studentToUpdate);
     }
 }
