@@ -13,6 +13,6 @@ public class InterceptorConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new GenericInterceptor())
                 .addPathPatterns("/StudentManagement/getAllStudents/**")
-                .excludePathPatterns("**/updateStudent/**");
+                .excludePathPatterns("/StudentManagement/updateStudent/**");
     }
 }

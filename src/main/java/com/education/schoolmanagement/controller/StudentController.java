@@ -1,6 +1,7 @@
 package com.education.schoolmanagement.controller;
 
 import com.education.schoolmanagement.Model.Student;
+import com.education.schoolmanagement.Util.CacheInspectUtil;
 import com.education.schoolmanagement.service.StudentService;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
@@ -16,16 +17,16 @@ import java.util.Map;
 public class StudentController {
 
     StudentService studentService;
+    CacheInspectUtil cacheInspectUtil;
 
-    public StudentController(StudentService studentService) {
+    public StudentController(StudentService studentService, CacheInspectUtil cacheInspectUtil) {
         this.studentService = studentService;
+        this.cacheInspectUtil = cacheInspectUtil;
     }
 
     @PostMapping("/insertStudent")
     public ResponseEntity<Student> insertStudent(@RequestBody Student student) {
-
         Student savedStudent = studentService.insertStudent(student);
-
         if (savedStudent == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Student not inserted");
         }
@@ -35,6 +36,8 @@ public class StudentController {
     @GetMapping("/getAllStudents")
     public Map<Integer,Student> getAllStudents(){
         System.out.println("Get All students Controller");
+        cacheInspectUtil.inspectAllCaches();
+
         return studentService.getAllStudents();
     }
 
@@ -42,7 +45,6 @@ public class StudentController {
     @Transactional
     public ResponseEntity<Student> updateStudent(@RequestBody Student updateStudent,
                                                  @PathVariable Integer studentId) {
-
         Student updatedStudent = studentService.updateStudent(updateStudent, studentId);
 
         if (updatedStudent == null) {
