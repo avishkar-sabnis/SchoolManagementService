@@ -34,6 +34,7 @@ public class StudentController {
 
     @GetMapping("/getAllStudents")
     public Map<Integer,Student> getAllStudents(){
+        System.out.println("Get All students Controller");
         return studentService.getAllStudents();
     }
 
