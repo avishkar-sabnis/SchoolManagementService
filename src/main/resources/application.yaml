@@ -1,3 +1,8 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 server:
   port: 8089
 spring:
@@ -14,4 +19,5 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
+
 

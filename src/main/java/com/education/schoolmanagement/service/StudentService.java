@@ -3,6 +3,8 @@ package com.education.schoolmanagement.service;
 import com.education.schoolmanagement.Model.Student;
 import com.education.schoolmanagement.Util.CacheInspectUtil;
 import com.education.schoolmanagement.repository.StudentRepository;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +31,16 @@ public class StudentService {
 
     public Student insertStudent(Student student){
         return studentRepository.save(student);
+    }
+
+    @PostConstruct
+    public void init(){
+        System.out.println("initialising bean");
+    }
+    @PreDestroy
+    public void predestroy(){
+        cacheInspectUtil.inspectAllCaches();
+        System.out.println("destroying bean");
     }
 
     @Cacheable(value = "Students")
