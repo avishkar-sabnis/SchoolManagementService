@@ -1,11 +1,13 @@
 package com.education.schoolmanagement.controller;
 
+import com.education.schoolmanagement.Model.PrototypeBean;
 import com.education.schoolmanagement.Model.SingletonBean;
 import com.education.schoolmanagement.Model.Student;
 import com.education.schoolmanagement.Util.CacheInspectUtil;
 import com.education.schoolmanagement.service.StudentService;
 import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,17 +18,20 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/StudentManagement")
+@Scope("prototype")
 public class StudentController {
 
     StudentService studentService;
     CacheInspectUtil cacheInspectUtil;
     SingletonBean singletonBean;
+    PrototypeBean prototypeBean;
 
     public StudentController(StudentService studentService, CacheInspectUtil cacheInspectUtil,
-                                SingletonBean singletonBean) {
+                             SingletonBean singletonBean, PrototypeBean prototypeBean) {
         this.studentService = studentService;
         this.cacheInspectUtil = cacheInspectUtil;
         this.singletonBean = singletonBean;
+        this.prototypeBean = prototypeBean;
 
     }
 
@@ -34,6 +39,7 @@ public class StudentController {
     public void init(){
         System.out.println("Controller Bean hashCode:" + this.hashCode());
         System.out.println("Singleton Bean Hashcode:"+ singletonBean.hashCode());
+        System.out.println("protoype Bean Hashscode:"+ prototypeBean.hashCode());
     }
 
     @PostMapping("/insertStudent")
