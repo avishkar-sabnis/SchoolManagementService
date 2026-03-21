@@ -1,8 +1,10 @@
 package com.education.schoolmanagement.controller;
 
+import com.education.schoolmanagement.Model.SingletonBean;
 import com.education.schoolmanagement.Model.Student;
 import com.education.schoolmanagement.Util.CacheInspectUtil;
 import com.education.schoolmanagement.service.StudentService;
+import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +20,20 @@ public class StudentController {
 
     StudentService studentService;
     CacheInspectUtil cacheInspectUtil;
+    SingletonBean singletonBean;
 
-    public StudentController(StudentService studentService, CacheInspectUtil cacheInspectUtil) {
+    public StudentController(StudentService studentService, CacheInspectUtil cacheInspectUtil,
+                                SingletonBean singletonBean) {
         this.studentService = studentService;
         this.cacheInspectUtil = cacheInspectUtil;
+        this.singletonBean = singletonBean;
+
+    }
+
+    @PostConstruct
+    public void init(){
+        System.out.println("Controller Bean hashCode:" + this.hashCode());
+        System.out.println("Singleton Bean Hashcode:"+ singletonBean.hashCode());
     }
 
     @PostMapping("/insertStudent")
