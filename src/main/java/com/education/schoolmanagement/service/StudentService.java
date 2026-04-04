@@ -10,6 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -45,8 +48,15 @@ public class StudentService {
 
     @Cacheable(value = "Students")
     public Map<Integer,Student> getAllStudents(){
+
+        int pageSize = 2;
+        int pageNumber = 1;
+        Pageable pageable = PageRequest.of(pageNumber,pageSize);
+
         log.info("inside controller");
-        List<Student> studentList = studentRepository.findAll();
+        Page<Student> studentListPage = studentRepository.findAll(pageable);
+        List<Student> studentList = studentListPage.getContent();
+
         Map<Integer,Student> allStudentsMap = new HashMap<>();
 
         for(int i=0;i<studentList.size();i++){
